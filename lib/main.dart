@@ -72,10 +72,13 @@ class _MyHomePageState extends State<MyHomePage> {
     try {
       final downloadsPath = await getDownloadsDirectory();
       final input = File("$downloadsPath/data.csv").openRead();
-      final fields = await input.transform(utf8.decoder).transform(const CsvToListConverter()).toList();
+      final fields = await input.transform(utf8.decoder).transform(
+          const CsvToListConverter()).toList();
       return fields;
-    } on Exception catch (_) {
-      print(":p");
+    } catch (e) {
+      setState(() {
+        queryResult = e.toString();
+      });
       return [];
     }
   }
